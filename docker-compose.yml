@@ -1,0 +1,31 @@
+version: '2.2'
+services:
+## SAMPLE APPLICATION 1 ##################################
+  app1:
+    build: ./app
+    container_name: sample-app1
+    environment:
+      - APP_NAME=APP1
+      - APP_PORT=3000
+    ports:
+      - 3001:3000
+
+## SAMPLE APPLICATION 2 ##################################
+  app2:
+    build: ./app
+    container_name: sample-app2
+    environment:
+      - APP_NAME=APP2
+      - APP_PORT=3000
+    ports:
+      - 3002:3000
+
+## PROXY EXAMPLE  ########################################
+  reverseproxy:
+    build: ./proxy-server
+    container_name: sample-reverseproxy
+    volumes:
+      - ./proxy-server/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    command: [nginx-debug, '-g', 'daemon off;']
